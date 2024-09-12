@@ -3,6 +3,8 @@ package com.example.onlineshop;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -38,6 +40,7 @@ public class ManageProductsActivity extends AppCompatActivity {
     private List<Product> productList;
     private RequestQueue requestQueue;
     private static final String API_URL = "http://192.168.0.155:8080/products";
+    private FloatingActionButton addProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class ManageProductsActivity extends AppCompatActivity {
             return insets;
         });
 
+        addProduct = findViewById(R.id.fab_addProduct);
         recyclerViewManageProducts = findViewById(R.id.recyclerViewManage);
         recyclerViewManageProducts.setLayoutManager(new LinearLayoutManager(this));
 
@@ -59,7 +63,8 @@ public class ManageProductsActivity extends AppCompatActivity {
             public void onEdit(Product product) {
                 // Start EditProductActivity for editing the selected product
                 Intent intent = new Intent(ManageProductsActivity.this, EditProductActivity.class);
-                intent.putExtra("product", product);
+                String productJson = new Gson().toJson(product);
+                intent.putExtra("product", productJson);
                 startActivity(intent);
             }
 
@@ -69,6 +74,15 @@ public class ManageProductsActivity extends AppCompatActivity {
                 deleteProduct(product);
             }
         });
+
+        addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ManageProductsActivity.this, CreateProductActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         recyclerViewManageProducts.setAdapter(adapter);
 
@@ -110,5 +124,11 @@ public class ManageProductsActivity extends AppCompatActivity {
         );
 
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getProducts();
     }
 }

@@ -12,8 +12,8 @@
         android:id="@+id/tvShopName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BlødeStoffer"
-        android:textSize="48dp"
+        android:text="BlødeStoffer Manager"
+        android:textSize="40dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -25,5 +25,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvShopName"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_addProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="60dp"
+        app:fabCustomSize="60dp"
+        android:src="@drawable/baseline_add_24"
+        app:backgroundTint="@color/orange"
+        app:fabSize="normal"
+        app:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
