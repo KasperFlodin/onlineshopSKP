@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.onlineshop.Models.Connection;
 import com.example.onlineshop.Models.Product;
 import com.google.gson.Gson;
 
@@ -26,7 +27,7 @@ public class CreateProductActivity extends AppCompatActivity {
 
     private EditText editTextName, editTextDescription, editTextPrice, editTextImageUrl;
     private Button btnSave;
-    private static final String API_URL = "http://192.168.0.155:8080/products";
+    private static final String API_URL = "http://" + Connection.getBaseUrl() + ":8080/products";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.onlineshop.Models.Connection;
 import com.example.onlineshop.Models.Product;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Product> productList;
     private FloatingActionButton btnCart, btnManage;
     private RequestQueue requestQueue;
-    private static final String API_URL = "http://192.168.0.155:8080/products";
+    private static final String API_URL = "http://" + Connection.getBaseUrl() + ":8080/products";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
