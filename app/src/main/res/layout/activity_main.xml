@@ -41,11 +41,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+    <!-- "Logged in" TextView initially hidden -->
+    <TextView
+        android:id="@+id/tvLoggedIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logged in"
+        android:textSize="16sp"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/black"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/fab_admin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recyclerView"
+
+        />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="15dp"
         app:fabCustomSize="50dp"
         android:src="@drawable/baseline_settings_24"
         app:backgroundTint="@color/black"

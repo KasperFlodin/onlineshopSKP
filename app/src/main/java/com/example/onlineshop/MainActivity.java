@@ -1,9 +1,11 @@
 package com.example.onlineshop;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Product> productList;
     private FloatingActionButton btnCart, btnManage;
     private RequestQueue requestQueue;
+    private TextView tvLoggedIn;
     private static final String API_URL = "http://" + Connection.getBaseUrl() + ":8080/products";
 
     @Override
@@ -62,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
         btnCart = findViewById(R.id.fab_cart);
         btnManage = findViewById(R.id.fab_admin);
+        tvLoggedIn = findViewById(R.id.tvLoggedIn);
+
         requestQueue = Volley.newRequestQueue(this);
 
         btnCart.setOnClickListener(v -> {
@@ -70,9 +75,29 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnManage.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ManageProductsActivity.class);
-            startActivity(intent);
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+            boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+            if (isLoggedIn) {
+                // User is logged in, allow access to ManageProductsActivity
+                Intent intent = new Intent(MainActivity.this, ManageProductsActivity.class);
+                startActivity(intent);
+            } else {
+                // User is not logged in, redirect to LoginActivity
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
         });
+
+        // Check login status and show/hide the "Logged in" text
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            tvLoggedIn.setVisibility(View.VISIBLE); // Show "Logged in" text
+        } else {
+            tvLoggedIn.setVisibility(View.GONE); // Hide "Logged in" text
+        }
 
         getProducts();
     }
@@ -81,6 +106,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getProducts();
+    }
+
+    // Clear login status when app goes to background
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Clear the login status when the app is no longer visible
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn", false);
+        editor.apply();
     }
 
     private void getProducts() {
